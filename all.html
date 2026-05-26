@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>서술형 암기장</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ══════════════════════════════════════════
+   토큰 & 테마
+══════════════════════════════════════════ */
+:root {
+  --font: 'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+
+  /* 라이트 */
+  --bg:          #F7F7F8;
+  --surface:     #FFFFFF;
+  --surface2:    #F2F2F4;
+  --border:      #E8E8EC;
+  --border2:     #D4D4DA;
+  --tx1:         #18181C;
+  --tx2:         #5A5A6A;
+  --tx3:         #9898A8;
+  --accent:      #534AB7;
+  --accent-bg:   #EEEDFE;
+  --accent-tx:   #3C3489;
+  --danger:      #D94040;
+  --danger-bg:   #FDEAEA;
+
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px; --r-2xl: 24px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.14);
+}
+[data-theme="dark"] {
+  --bg:          #111113;
+  --surface:     #1C1C1F;
+  --surface2:    #252528;
+  --border:      #2C2C30;
+  --border2:     #3A3A3F;
+  --tx1:         #F0F0F2;
+  --tx2:         #9898A8;
+  --tx3:         #5A5A68;
+  --accent:      #7B74D4;
+  --accent-bg:   #1E1B3A;
+  --accent-tx:   #B8B4F0;
+  --danger:      #E06060;
+  --danger-bg:   #2A1A1A;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.5);
+}
+
+/* ══════════════════════════════════════════
+   리셋
+══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--tx1);line-height:1.6;min-height:100vh;transition:background .2s,color .2s}
+button{font-family:var(--font);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+input,textarea,select{font-family:var(--font)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ══════════════════════════════════════════
+   레이아웃
+══════════════════════════════════════════ */
+.page{display:none;animation:fadeIn .18s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.wrap{max-width:780px;margin:0 auto;padding:1.75rem 1.25rem 5rem}
+@media(min-width:600px){.wrap{padding:2rem 2rem 5rem}}
+@media(min-width:900px){.wrap{padding:2.5rem 2.5rem 6rem}}
+
+/* ══════════════════════════════════════════
+   글로벌 헤더
+══════════════════════════════════════════ */
+.global-nav{
+  position:sticky;top:0;z-index:50;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.global-nav-inner{
+  max-width:780px;margin:0 auto;
+  display:flex;align-items:center;gap:10px;
+  padding:.75rem 1.25rem;
+}
+@media(min-width:600px){.global-nav-inner{padding:.75rem 2rem}}
+.nav-back{
+  display:none;align-items:center;gap:4px;
+  font-size:13px;font-weight:600;color:var(--tx2);
+  background:none;border:none;padding:4px 6px;
+  border-radius:var(--r-sm);transition:background .15s,color .15s;
+}
+.nav-back.show{display:inline-flex}
+.nav-back:hover{background:var(--surface2);color:var(--tx1)}
+.nav-title{flex:1;font-size:15px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
+
+/* ══════════════════════════════════════════
+   버튼
+══════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:600;
+  padding:7px 15px;border-radius:var(--r-sm);border:none;
+  transition:opacity .15s,background .15s;white-space:nowrap;
+}
+.btn:hover{opacity:.82}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-ghost{background:transparent;color:var(--tx2);border:1px solid var(--border2)}
+.btn-ghost:hover{background:var(--surface2);opacity:1}
+.btn-danger-ghost{background:var(--danger-bg);color:var(--danger);border:1px solid transparent}
+.btn-icon{padding:7px;border-radius:var(--r-sm);background:transparent;border:1px solid var(--border);color:var(--tx2)}
+.btn-icon:hover{background:var(--surface2);opacity:1}
+.btn i{font-size:16px}
+
+/* 다크모드 토글 */
+.theme-toggle{
+  width:34px;height:34px;border-radius:var(--r-sm);
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--tx2);font-size:17px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+}
+.theme-toggle:hover{background:var(--border)}
+
+/* ══════════════════════════════════════════
+   ▌PAGE 1: 홈 — 암기장 목록
+══════════════════════════════════════════ */
+.home-header{margin-bottom:1.75rem}
+.home-header h2{font-size:clamp(20px,4.5vw,24px);font-weight:700;letter-spacing:-.03em;margin-bottom:4px}
+.home-header p{font-size:13px;color:var(--tx3)}
+
+/* 새 암기장 버튼 영역 */
+.home-actions{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+
+/* 암기장 그리드 */
+.decks-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;
+}
+@media(max-width:480px){.decks-grid{grid-template-columns:1fr}}
+
+.deck-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:1.1rem 1.1rem .9rem;
+  cursor:pointer;
+  transition:border-color .15s,box-shadow .15s,transform .12s;
+  position:relative;
+}
+.deck-card:hover{border-color:var(--border2);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.deck-color-bar{height:3px;border-radius:2px;margin-bottom:12px}
+.deck-title{font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:3px;word-break:keep-all;line-height:1.4}
+.deck-sub{font-size:12px;color:var(--tx3);margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deck-meta{display:flex;align-items:center;justify-content:space-between}
+.deck-count{font-size:11px;font-weight:600;color:var(--tx3)}
+.deck-menu-btn{
+  background:none;border:none;
+  padding:4px 6px;border-radius:6px;
+  color:var(--tx3);font-size:16px;
+  opacity:0;transition:opacity .15s,background .15s;
+  position:absolute;top:10px;right:10px;
+}
+.deck-card:hover .deck-menu-btn{opacity:1}
+.deck-menu-btn:hover{background:var(--surface2);color:var(--tx1)}
+
+/* 빈 상태 */
+.empty-home{
+  grid-column:1/-1;
+  text-align:center;padding:3.5rem 1rem;
+  border:1.5px dashed var(--border2);border-radius:var(--r-lg);
+  color:var(--tx3);
+}
+.empty-home i{font-size:36px;margin-bottom:12px;display:block;color:var(--border2)}
+.empty-home p{font-size:14px;margin-bottom:4px}
+.empty-home small{font-size:12px}
+
+/* ══════════════════════════════════════════
+   ▌PAGE 2: 편집기
+══════════════════════════════════════════ */
+.section-label{
+  font-size:11px;font-weight:700;color:var(--tx3);
+  letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;
+}
+
+/* 메타 섹션 */
+.meta-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:1.1rem 1.2rem;margin-bottom:1.4rem;
+}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.meta-grid{grid-template-columns:1fr}}
+
+/* 카테고리 박스 */
+.cat-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:1.1rem 1.2rem;margin-bottom:1.4rem;
+}
+.cat-list{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;min-height:28px}
+.cat-chip{
+  font-size:12px;font-weight:600;
+  padding:4px 10px;border-radius:var(--r-xl);
+  border:1px solid var(--border);background:var(--surface2);color:var(--tx2);
+  display:flex;align-items:center;gap:5px;
+}
+.cat-chip .rm{cursor:pointer;color:var(--tx3);font-size:13px;line-height:1;transition:color .15s}
+.cat-chip .rm:hover{color:var(--danger)}
+.cat-add-row{display:flex;gap:8px}
+.cat-add-row input{flex:1}
+
+/* 인풋 공통 */
+.field{margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+.fl{font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:5px;display:block}
+.fl .opt{font-weight:400;color:var(--tx3)}
+.fh{font-size:11px;color:var(--tx3);margin-top:4px}
+
+input[type=text],textarea,select{
+  width:100%;padding:9px 11px;
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  background:var(--surface2);color:var(--tx1);
+  font-size:13px;outline:none;
+  transition:border-color .15s,box-shadow .15s,background .15s;
+  -webkit-appearance:none;appearance:none;
+}
+input[type=text]:focus,textarea:focus,select:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px rgba(83,74,183,.13);background:var(--surface);
+}
+textarea{resize:vertical;min-height:72px;line-height:1.65}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239898A8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  padding-right:28px;cursor:pointer;
+}
+
+/* 카드 편집 목록 */
+.cards-editor{display:flex;flex-direction:column;gap:10px;margin-bottom:1.4rem}
+
+.cei{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;
+  transition:border-color .15s,box-shadow .15s;
+}
+.cei:hover{border-color:var(--border2);box-shadow:var(--shadow-sm)}
+
+.cei-head{
+  display:flex;align-items:center;gap:9px;
+  padding:.8rem 1rem;cursor:pointer;user-select:none;
+  background:var(--surface2);border-bottom:1px solid var(--border);
+  -webkit-tap-highlight-color:transparent;
+}
+.cei-num{font-size:11px;font-weight:700;color:var(--tx3);min-width:22px;flex-shrink:0}
+.cei-tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;white-space:nowrap;flex-shrink:0}
+.cei-preview{flex:1;font-size:13px;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cei-preview.ph{color:var(--tx3);font-style:italic}
+.cei-acts{display:flex;gap:3px;flex-shrink:0}
+.icon-btn{
+  background:none;border:none;padding:4px 5px;border-radius:6px;
+  color:var(--tx3);font-size:16px;display:flex;align-items:center;
+  transition:background .15s,color .15s;
+}
+.icon-btn:hover{background:var(--border);color:var(--tx1)}
+.icon-btn.del:hover{background:var(--danger-bg);color:var(--danger)}
+.chev{font-size:16px;color:var(--tx3);transition:transform .2s;flex-shrink:0}
+.cei.open .chev{transform:rotate(180deg)}
+.cei-body{display:none;padding:1rem 1.1rem}
+.cei.open .cei-body{display:block}
+
+/* 마크업 칩 */
+.mu-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
+.mu-chip{
+  font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;
+  cursor:pointer;user-select:none;transition:opacity .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.mu-chip:hover{opacity:.72}
+.chip-key{background:#EEEDFE;color:#3C3489}
+.chip-cond{background:#E1F5EE;color:#085041}
+[data-theme="dark"] .chip-key{background:#1E1B3A;color:#B8B4F0}
+[data-theme="dark"] .chip-cond{background:#0D2218;color:#6DE0A8}
+
+/* 추가 행 */
+.add-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+
+/* 빈 상태 (편집기) */
+.empty-editor{
+  text-align:center;padding:3rem 1rem;
+  border:1.5px dashed var(--border2);border-radius:var(--r-lg);
+  color:var(--tx3);margin-bottom:1.4rem;
+}
+.empty-editor i{font-size:30px;margin-bottom:10px;display:block}
+.empty-editor p{font-size:13px}
+
+/* 편집기 하단 액션바 */
+.editor-bottom{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--surface);border-top:1px solid var(--border);
+  padding:.85rem 1.25rem;
+  display:none;
+  z-index:40;
+}
+.editor-bottom.show{display:flex}
+.editor-bottom-inner{
+  max-width:780px;margin:0 auto;width:100%;
+  display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap;
+}
+@media(min-width:600px){.editor-bottom{padding:.85rem 2rem}}
+
+/* ══════════════════════════════════════════
+   모달
+══════════════════════════════════════════ */
+.modal-bg{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.45);z-index:200;
+  align-items:flex-start;justify-content:center;
+  padding:2rem 1rem;overflow-y:auto;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:var(--surface);border-radius:var(--r-xl);
+  overflow:hidden;width:100%;max-width:540px;
+  box-shadow:var(--shadow-lg);margin:auto;
+}
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 1.25rem;border-bottom:1px solid var(--border);
+  background:var(--surface2);
+}
+.modal-head span{font-size:14px;font-weight:700}
+.modal-body{padding:1.25rem}
+.modal-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:1.1rem}
+.modal-close{background:none;border:none;font-size:20px;color:var(--tx3);padding:3px;border-radius:6px}
+.modal-close:hover{background:var(--border);color:var(--tx1)}
+
+/* 새 암기장 만들기 모달 */
+.new-deck-form .field{margin-bottom:14px}
+
+/* 덱 메뉴 미니 모달 */
+.deck-ctx-menu{
+  position:fixed;z-index:300;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-md);box-shadow:var(--shadow-lg);
+  padding:4px;min-width:150px;display:none;
+}
+.deck-ctx-menu.open{display:block}
+.ctx-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:var(--r-sm);
+  font-size:13px;font-weight:500;color:var(--tx1);
+  background:none;border:none;width:100%;text-align:left;
+  cursor:pointer;transition:background .12s;
+}
+.ctx-item:hover{background:var(--surface2)}
+.ctx-item.danger{color:var(--danger)}
+.ctx-item.danger:hover{background:var(--danger-bg)}
+
+/* 토스트 */
+.toast{
+  position:fixed;bottom:72px;left:50%;
+  transform:translateX(-50%) translateY(12px);
+  background:#18181C;color:#fff;
+  font-size:13px;font-weight:500;
+  padding:9px 18px;border-radius:var(--r-xl);
+  opacity:0;transition:opacity .2s,transform .2s;
+  pointer-events:none;white-space:nowrap;z-index:999;
+}
+[data-theme="dark"] .toast{background:#E8E8EC;color:#18181C}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ═══ 글로벌 네비게이션 ═══ -->
+<nav class="global-nav">
+  <div class="global-nav-inner">
+    <button class="nav-back" id="nav-back">
+      <i class="ti ti-chevron-left"></i> 목록
+    </button>
+    <div class="nav-title" id="nav-title">서술형 암기장</div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" title="다크/라이트 모드">
+        <i class="ti ti-moon" id="theme-icon"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     PAGE 1: 홈
+═══════════════════════════════════════ -->
+<div class="page active" id="page-home">
+<div class="wrap">
+  <div class="home-header">
+    <h2>암기장 목록</h2>
+    <p>암기장을 선택하거나 새로 만들어 보세요</p>
+  </div>
+  <div class="home-actions">
+    <button class="btn btn-primary" id="btn-new-deck">
+      <i class="ti ti-plus"></i> 새 암기장 만들기
+    </button>
+    <button class="btn btn-ghost" id="btn-import-home">
+      <i class="ti ti-file-import"></i> JSON 불러오기
+    </button>
+  </div>
+  <div class="decks-grid" id="decks-grid"></div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE 2: 편집기
+═══════════════════════════════════════ -->
+<div class="page" id="page-editor">
+<div class="wrap">
+
+  <!-- 메타 정보 -->
+  <div class="meta-box">
+    <div class="section-label">암기장 정보</div>
+    <div class="meta-grid">
+      <div class="field">
+        <label class="fl" for="meta-title">제목</label>
+        <input type="text" id="meta-title" placeholder="예) 물리 열역학 서술형">
+      </div>
+      <div class="field">
+        <label class="fl" for="meta-sub">부제목 <span class="opt">(선택)</span></label>
+        <input type="text" id="meta-sub" placeholder="예) 1학기 중간고사 대비">
+      </div>
+    </div>
+  </div>
+
+  <!-- 카테고리 -->
+  <div class="cat-box">
+    <div class="section-label">카테고리</div>
+    <div class="cat-list" id="cat-list">
+      <span style="font-size:12px;color:var(--tx3)">카테고리를 추가하세요</span>
+    </div>
+    <div class="cat-add-row">
+      <input type="text" id="cat-input" placeholder="카테고리 입력 후 Enter" maxlength="20">
+      <button class="btn btn-ghost" id="btn-add-cat"><i class="ti ti-plus"></i> 추가</button>
+    </div>
+  </div>
+
+  <!-- 카드 목록 -->
+  <div class="section-label" id="card-section-label">카드 목록 (0개)</div>
+  <div class="cards-editor" id="cards-editor"></div>
+
+  <!-- 카드 추가 버튼 -->
+  <div class="add-row">
+    <button class="btn btn-primary" id="btn-add-card"><i class="ti ti-plus"></i> 카드 추가</button>
+    <button class="btn btn-ghost" id="btn-save-json-editor"><i class="ti ti-file-export"></i> JSON 백업</button>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══ 하단 액션바 (편집기) ═══ -->
+<div class="editor-bottom" id="editor-bottom">
+  <div class="editor-bottom-inner">
+    <span style="font-size:12px;color:var(--tx3)" id="bottom-info"></span>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost" id="btn-preview"><i class="ti ti-eye"></i> 미리보기</button>
+      <button class="btn btn-primary" id="btn-export"><i class="ti ti-download"></i> HTML 저장</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ 모달: 새 암기장 ═══ -->
+<div class="modal-bg" id="modal-new">
+  <div class="modal">
+    <div class="modal-head">
+      <span>새 암기장 만들기</span>
+      <button class="modal-close" data-close="modal-new"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body new-deck-form">
+      <div class="field">
+        <label class="fl" for="new-title">제목 <span style="color:var(--danger)">*</span></label>
+        <input type="text" id="new-title" placeholder="예) 화학 반응속도 서술형">
+      </div>
+      <div class="field">
+        <label class="fl" for="new-sub">부제목 <span class="opt">(선택)</span></label>
+        <input type="text" id="new-sub" placeholder="예) 2학기 기말고사 대비">
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close="modal-new">취소</button>
+        <button class="btn btn-primary" id="btn-create-deck"><i class="ti ti-check"></i> 만들기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 모달: JSON 불러오기 ═══ -->
+<div class="modal-bg" id="modal-import">
+  <div class="modal">
+    <div class="modal-head">
+      <span>JSON 불러오기</span>
+      <button class="modal-close" data-close="modal-import"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--tx2);margin-bottom:10px">백업한 JSON을 붙여넣거나 파일을 선택하세요.</p>
+      <textarea id="import-json-text" style="height:140px;font-size:12px;font-family:monospace" placeholder='{"title":"...","cards":[...]}'></textarea>
+      <div style="margin-top:8px">
+        <input type="file" id="import-file" accept=".json" style="font-size:12px;color:var(--tx2)">
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close="modal-import">취소</button>
+        <button class="btn btn-primary" id="btn-confirm-import"><i class="ti ti-check"></i> 불러오기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 덱 컨텍스트 메뉴 ═══ -->
+<div class="deck-ctx-menu" id="deck-ctx-menu">
+  <button class="ctx-item" id="ctx-edit"><i class="ti ti-edit"></i> 편집하기</button>
+  <button class="ctx-item" id="ctx-export"><i class="ti ti-download"></i> HTML 저장</button>
+  <button class="ctx-item" id="ctx-json"><i class="ti ti-file-export"></i> JSON 백업</button>
+  <button class="ctx-item danger" id="ctx-delete"><i class="ti ti-trash"></i> 삭제</button>
+</div>
+
+<!-- 토스트 -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════
+   상태
+══════════════════════════════════════ */
+let decks = [];       // [{ id, title, sub, categories, cards, color, createdAt }]
+let currentDeckId = null;
+let openItems = new Set();
+let ctxTargetId = null;
+
+const COLORS = ['#534AB7','#0A7E5A','#C04A14','#0C5FAD','#8B2A6E','#2E7D6B','#A0390A','#2956A0'];
+
+/* ══════════════════════════════════════
+   유틸
+══════════════════════════════════════ */
+function uid(){ return Math.random().toString(36).slice(2,9) }
+function toast(msg, dur=2200){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), dur);
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+function getTagStyle(cat, cats){
+  const palette=[
+    ['#EEEDFE','#3C3489'],['#E1F5EE','#085041'],['#FAEEDA','#633806'],
+    ['#E6F1FB','#0C447C'],['#FBEAF0','#72243E'],['#FAECE7','#712B13'],
+    ['#EBF5E6','#1E5E0E'],['#FDF0E6','#7A3800']
+  ];
+  const i = cats ? cats.indexOf(cat) : -1;
+  const [bg,tx] = palette[((i<0?0:i)) % palette.length];
+  return `background:${bg};color:${tx};`;
+}
+function getDarkTagStyle(cat, cats){
+  const palette=[
+    ['#1E1B3A','#B8B4F0'],['#0D2218','#6DE0A8'],['#2A1C0A','#E0A860'],
+    ['#0A1E2E','#6EB4F0'],['#2A0E1C','#F0A0C0'],['#2A1208','#F0A080'],
+    ['#0E2210','#70D880'],['#2A180A','#F0B870']
+  ];
+  const i = cats ? cats.indexOf(cat) : -1;
+  const [bg,tx] = palette[((i<0?0:i)) % palette.length];
+  return `background:${bg};color:${tx};`;
+}
+function isDark(){ return document.documentElement.dataset.theme==='dark' }
+function tagStyle(cat,cats){ return isDark() ? getDarkTagStyle(cat,cats) : getTagStyle(cat,cats) }
+
+function save(){ try{ localStorage.setItem('decks_v1', JSON.stringify(decks)) }catch(e){} }
+function load(){
+  try{
+    const raw = localStorage.getItem('decks_v1');
+    if(raw) decks = JSON.parse(raw);
+  }catch(e){ decks=[] }
+}
+
+function getDeck(id){ return decks.find(d=>d.id===id) }
+function currentDeck(){ return getDeck(currentDeckId) }
+
+/* ══════════════════════════════════════
+   테마
+══════════════════════════════════════ */
+function applyTheme(t){
+  document.documentElement.dataset.theme = t;
+  document.getElementById('theme-icon').className = t==='dark' ? 'ti ti-sun' : 'ti ti-moon';
+  try{ localStorage.setItem('theme', t) }catch(e){}
+}
+document.getElementById('theme-toggle').addEventListener('click', ()=>{
+  applyTheme(isDark() ? 'light' : 'dark');
+  renderCards(); // 태그 색상 재렌더
+  renderHome();
+});
+// 시스템 기본값 or 저장값
+(function(){
+  let t = 'light';
+  try{ t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light') }catch(e){}
+  applyTheme(t);
+})();
+
+/* ══════════════════════════════════════
+   페이지 전환
+══════════════════════════════════════ */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function goHome(){
+  showPage('page-home');
+  document.getElementById('nav-back').classList.remove('show');
+  document.getElementById('nav-title').textContent = '서술형 암기장';
+  document.getElementById('editor-bottom').classList.remove('show');
+  currentDeckId = null;
+  openItems.clear();
+  renderHome();
+}
+function goEditor(deckId){
+  currentDeckId = deckId;
+  const deck = currentDeck();
+  showPage('page-editor');
+  document.getElementById('nav-back').classList.add('show');
+  document.getElementById('nav-title').textContent = deck.title || '암기장 편집';
+  document.getElementById('editor-bottom').classList.add('show');
+  loadEditorFromDeck(deck);
+}
+document.getElementById('nav-back').addEventListener('click', ()=>{
+  saveEditorToDeck();
+  goHome();
+});
+
+/* ══════════════════════════════════════
+   홈 렌더
+══════════════════════════════════════ */
+function renderHome(){
+  const grid = document.getElementById('decks-grid');
+  grid.innerHTML = '';
+  if(decks.length === 0){
+    grid.innerHTML = `<div class="empty-home"><i class="ti ti-books"></i><p>아직 암기장이 없어요</p><small>'새 암기장 만들기'로 시작해보세요</small></div>`;
+    return;
+  }
+  decks.forEach(deck=>{
+    const div = document.createElement('div');
+    div.className = 'deck-card';
+    div.dataset.id = deck.id;
+    div.innerHTML = `
+      <div class="deck-color-bar" style="background:${deck.color}"></div>
+      <div class="deck-title">${esc(deck.title)}</div>
+      <div class="deck-sub">${esc(deck.sub||'부제목 없음')}</div>
+      <div class="deck-meta">
+        <span class="deck-count"><i class="ti ti-cards" style="font-size:12px;vertical-align:-1px"></i> ${deck.cards.length}개 카드</span>
+      </div>
+      <button class="deck-menu-btn" data-id="${deck.id}" title="메뉴"><i class="ti ti-dots-vertical"></i></button>
+    `;
+    // 카드 본체 클릭 → 편집기
+    div.addEventListener('click', e=>{
+      if(e.target.closest('.deck-menu-btn')) return;
+      goEditor(deck.id);
+    });
+    grid.appendChild(div);
+  });
+  // 메뉴 버튼
+  grid.querySelectorAll('.deck-menu-btn').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      e.stopPropagation();
+      openCtxMenu(btn.dataset.id, btn);
+    });
+  });
+}
+
+/* ══════════════════════════════════════
+   컨텍스트 메뉴
+══════════════════════════════════════ */
+function openCtxMenu(deckId, anchor){
+  ctxTargetId = deckId;
+  const menu = document.getElementById('deck-ctx-menu');
+  const rect = anchor.getBoundingClientRect();
+  menu.style.top  = (rect.bottom + 4 + window.scrollY) + 'px';
+  menu.style.right = (window.innerWidth - rect.right) + 'px';
+  menu.style.left = 'auto';
+  menu.classList.add('open');
+}
+function closeCtxMenu(){ document.getElementById('deck-ctx-menu').classList.remove('open'); ctxTargetId=null; }
+document.addEventListener('click', e=>{ if(!e.target.closest('#deck-ctx-menu')) closeCtxMenu(); });
+
+document.getElementById('ctx-edit').addEventListener('click', ()=>{ if(ctxTargetId){ goEditor(ctxTargetId) } closeCtxMenu(); });
+document.getElementById('ctx-export').addEventListener('click', ()=>{ if(ctxTargetId){ exportDeckHtml(ctxTargetId) } closeCtxMenu(); });
+document.getElementById('ctx-json').addEventListener('click', ()=>{ if(ctxTargetId){ exportDeckJson(ctxTargetId) } closeCtxMenu(); });
+document.getElementById('ctx-delete').addEventListener('click', ()=>{
+  if(!ctxTargetId) return;
+  const d = getDeck(ctxTargetId);
+  if(!d) return;
+  if(confirm(`'${d.title}' 암기장을 삭제할까요?\n(카드 ${d.cards.length}개 포함)`)){
+    decks = decks.filter(x=>x.id!==ctxTargetId);
+    save(); renderHome();
+    toast('삭제됐어요');
+  }
+  closeCtxMenu();
+});
+
+/* ══════════════════════════════════════
+   새 암기장
+══════════════════════════════════════ */
+document.getElementById('btn-new-deck').addEventListener('click', ()=>{
+  document.getElementById('new-title').value='';
+  document.getElementById('new-sub').value='';
+  openModal('modal-new');
+  setTimeout(()=>document.getElementById('new-title').focus(), 80);
+});
+document.getElementById('btn-create-deck').addEventListener('click', createDeck);
+document.getElementById('new-title').addEventListener('keydown', e=>{ if(e.key==='Enter') createDeck(); });
+
+function createDeck(){
+  const title = document.getElementById('new-title').value.trim();
+  if(!title){ document.getElementById('new-title').focus(); return; }
+  const sub   = document.getElementById('new-sub').value.trim();
+  const deck = {
+    id: uid(),
+    title, sub,
+    categories: [],
+    cards: [],
+    color: COLORS[decks.length % COLORS.length],
+    createdAt: Date.now()
+  };
+  decks.push(deck);
+  save();
+  closeModal('modal-new');
+  goEditor(deck.id);
+}
+
+/* ══════════════════════════════════════
+   편집기 — 덱 로드 / 저장
+══════════════════════════════════════ */
+function loadEditorFromDeck(deck){
+  document.getElementById('meta-title').value = deck.title || '';
+  document.getElementById('meta-sub').value   = deck.sub   || '';
+  openItems.clear();
+  renderCategories();
+  renderCards();
+  updateBottomInfo();
+}
+function saveEditorToDeck(){
+  const deck = currentDeck(); if(!deck) return;
+  deck.title = document.getElementById('meta-title').value.trim() || deck.title;
+  deck.sub   = document.getElementById('meta-sub').value.trim();
+  // categories/cards are updated live
+  save();
+}
+
+// 메타 실시간 저장
+['meta-title','meta-sub'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>{
+    const deck=currentDeck(); if(!deck) return;
+    deck.title = document.getElementById('meta-title').value;
+    deck.sub   = document.getElementById('meta-sub').value;
+    document.getElementById('nav-title').textContent = deck.title || '암기장 편집';
+    save();
+  });
+});
+
+function updateBottomInfo(){
+  const deck = currentDeck();
+  document.getElementById('bottom-info').textContent = deck ? `카드 ${deck.cards.length}개` : '';
+}
+
+/* ══════════════════════════════════════
+   카테고리
+══════════════════════════════════════ */
+function renderCategories(){
+  const deck = currentDeck(); if(!deck) return;
+  const list = document.getElementById('cat-list');
+  list.innerHTML='';
+  if(deck.categories.length===0){
+    list.innerHTML='<span style="font-size:12px;color:var(--tx3)">카테고리를 추가하세요</span>';
+    return;
+  }
+  deck.categories.forEach((cat,i)=>{
+    const chip=document.createElement('div');
+    chip.className='cat-chip';
+    chip.innerHTML=`<span>${esc(cat)}</span><span class="rm" data-i="${i}" title="삭제">×</span>`;
+    list.appendChild(chip);
+  });
+  list.querySelectorAll('.rm').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      deck.categories.splice(parseInt(btn.dataset.i),1);
+      save(); renderCategories(); renderCards();
+    });
+  });
+  // select 동기화
+  syncCatSelects();
+}
+function syncCatSelects(){
+  const deck=currentDeck(); if(!deck) return;
+  document.querySelectorAll('.card-cat-select').forEach(sel=>{
+    const cur=sel.value;
+    sel.innerHTML=deck.categories.map(c=>`<option value="${esc(c)}" ${c===cur?'selected':''}>${esc(c)}</option>`).join('');
+    if(!deck.categories.includes(cur) && deck.categories.length) sel.value=deck.categories[0];
+  });
+}
+
+function addCategory(){
+  const deck=currentDeck(); if(!deck) return;
+  const inp=document.getElementById('cat-input');
+  const val=inp.value.trim();
+  if(!val) return;
+  if(deck.categories.includes(val)){ toast('이미 있는 카테고리예요'); return; }
+  deck.categories.push(val);
+  inp.value='';
+  save(); renderCategories();
+  toast(`'${val}' 추가됨`);
+}
+document.getElementById('btn-add-cat').addEventListener('click', addCategory);
+document.getElementById('cat-input').addEventListener('keydown', e=>{ if(e.key==='Enter') addCategory(); });
+
+/* ══════════════════════════════════════
+   카드 렌더
+══════════════════════════════════════ */
+function renderCards(){
+  const deck=currentDeck();
+  const editor=document.getElementById('cards-editor');
+  const label=document.getElementById('card-section-label');
+  editor.innerHTML='';
+
+  if(!deck){ return; }
+  label.textContent=`카드 목록 (${deck.cards.length}개)`;
+  updateBottomInfo();
+
+  if(deck.cards.length===0){
+    editor.innerHTML=`<div class="empty-editor"><i class="ti ti-cards"></i><p>아직 카드가 없어요. '카드 추가' 버튼을 눌러보세요.</p></div>`;
+    return;
+  }
+
+  deck.cards.forEach((card,idx)=>{
+    const isOpen=openItems.has(idx);
+    const item=document.createElement('div');
+    item.className='cei'+(isOpen?' open':'');
+    item.dataset.idx=idx;
+
+    const preview=card.q?(card.q.replace(/<[^>]+>/g,'').substring(0,52)+(card.q.length>52?'…':'')):'';
+    const hasCats=deck.categories.length>0;
+    const tagHtml=card.cat?`<span class="cei-tag" style="${tagStyle(card.cat,deck.categories)}">${esc(card.cat)}</span>`:'';
+
+    const catSelectHtml=hasCats
+      ? `<select class="card-cat-select" data-idx="${idx}">${deck.categories.map(c=>`<option value="${esc(c)}" ${c===card.cat?'selected':''}>${esc(c)}</option>`).join('')}</select>`
+      : `<input type="text" class="card-cat-input" data-idx="${idx}" placeholder="카테고리 직접 입력" value="${esc(card.cat||'')}">`;
+
+    item.innerHTML=`
+      <div class="cei-head">
+        <span class="cei-num">${String(idx+1).padStart(2,'0')}</span>
+        ${tagHtml}
+        <span class="cei-preview ${!preview?'ph':''}">${preview||'질문을 입력하세요'}</span>
+        <div class="cei-acts">
+          <button class="icon-btn move-up" data-idx="${idx}" title="위로"><i class="ti ti-arrow-up"></i></button>
+          <button class="icon-btn move-down" data-idx="${idx}" title="아래로"><i class="ti ti-arrow-down"></i></button>
+          <button class="icon-btn del" data-idx="${idx}" title="삭제"><i class="ti ti-trash"></i></button>
+        </div>
+        <i class="ti ti-chevron-down chev"></i>
+      </div>
+      <div class="cei-body">
+        <div class="field">
+          <label class="fl">카테고리</label>
+          ${catSelectHtml}
+        </div>
+        <div class="field">
+          <label class="fl">질문</label>
+          <textarea class="card-q-input" data-idx="${idx}" rows="2" placeholder="서술형 질문을 입력하세요">${esc(card.q||'')}</textarea>
+        </div>
+        <div class="field">
+          <label class="fl">모범 답안</label>
+          <textarea class="card-a-input" data-idx="${idx}" rows="4" placeholder="모범 답안 — 아래 버튼으로 강조 마크업 삽입 가능">${esc(card.a||'')}</textarea>
+          <div class="mu-chips">
+            <span class="mu-chip chip-key" data-idx="${idx}" data-type="key">＋핵심어 강조 (보라)</span>
+            <span class="mu-chip chip-cond" data-idx="${idx}" data-type="cond">＋조건 강조 (초록)</span>
+          </div>
+          <div class="fh">선택 영역에 마크업 적용 / 빈 경우 '텍스트' 삽입</div>
+        </div>
+        <div class="field">
+          <label class="fl">암기 포인트 <span class="opt">(선택)</span></label>
+          <input type="text" class="card-tip-input" data-idx="${idx}" placeholder="핵심 암기 포인트를 간단히 메모하세요" value="${esc(card.tip||'')}">
+        </div>
+      </div>
+    `;
+    editor.appendChild(item);
+  });
+
+  // ─ 이벤트 ─
+  editor.querySelectorAll('.cei-head').forEach(h=>{
+    h.addEventListener('click', e=>{
+      if(e.target.closest('.icon-btn')) return;
+      const idx=parseInt(h.closest('.cei').dataset.idx);
+      if(openItems.has(idx)) openItems.delete(idx); else openItems.add(idx);
+      renderCards();
+    });
+  });
+  editor.querySelectorAll('.move-up').forEach(btn=>btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    const deck=currentDeck(); if(!deck) return;
+    const i=parseInt(btn.dataset.idx); if(i===0) return;
+    [deck.cards[i-1],deck.cards[i]]=[deck.cards[i],deck.cards[i-1]];
+    shiftOpen(i,i-1); save(); renderCards();
+  }));
+  editor.querySelectorAll('.move-down').forEach(btn=>btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    const deck=currentDeck(); if(!deck) return;
+    const i=parseInt(btn.dataset.idx); if(i===deck.cards.length-1) return;
+    [deck.cards[i],deck.cards[i+1]]=[deck.cards[i+1],deck.cards[i]];
+    shiftOpen(i,i+1); save(); renderCards();
+  }));
+  editor.querySelectorAll('.del').forEach(btn=>btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    const deck=currentDeck(); if(!deck) return;
+    const i=parseInt(btn.dataset.idx);
+    if(!confirm(`${i+1}번 카드를 삭제할까요?`)) return;
+    deck.cards.splice(i,1);
+    const no=new Set(); openItems.forEach(v=>{ if(v!==i) no.add(v>i?v-1:v); });
+    openItems.clear(); no.forEach(v=>openItems.add(v));
+    save(); renderCards();
+  }));
+
+  // 실시간 저장
+  editor.querySelectorAll('.card-cat-select').forEach(sel=>sel.addEventListener('change', ()=>{
+    currentDeck().cards[parseInt(sel.dataset.idx)].cat=sel.value; save(); renderCards();
+  }));
+  editor.querySelectorAll('.card-cat-input').forEach(inp=>inp.addEventListener('input', ()=>{
+    currentDeck().cards[parseInt(inp.dataset.idx)].cat=inp.value; save();
+  }));
+  editor.querySelectorAll('.card-q-input').forEach(ta=>ta.addEventListener('input', ()=>{
+    currentDeck().cards[parseInt(ta.dataset.idx)].q=ta.value; save();
+    // 미리보기 텍스트 동기화
+    const item=ta.closest('.cei');
+    const prev=item.querySelector('.cei-preview');
+    const v=ta.value.replace(/<[^>]+>/g,'');
+    prev.textContent=v?(v.substring(0,52)+(v.length>52?'…':'')):'질문을 입력하세요';
+    prev.classList.toggle('ph',!v);
+  }));
+  editor.querySelectorAll('.card-a-input').forEach(ta=>ta.addEventListener('input', ()=>{
+    currentDeck().cards[parseInt(ta.dataset.idx)].a=ta.value; save();
+  }));
+  editor.querySelectorAll('.card-tip-input').forEach(inp=>inp.addEventListener('input', ()=>{
+    currentDeck().cards[parseInt(inp.dataset.idx)].tip=inp.value; save();
+  }));
+
+  // 마크업 삽입
+  editor.querySelectorAll('.mu-chip').forEach(chip=>chip.addEventListener('click', ()=>{
+    const idx=parseInt(chip.dataset.idx); const type=chip.dataset.type;
+    const ta=editor.querySelector(`.card-a-input[data-idx="${idx}"]`); if(!ta) return;
+    const sel=ta.value.substring(ta.selectionStart,ta.selectionEnd)||'텍스트';
+    const wrap=`<span class='${type}'>${sel}</span>`;
+    ta.value=ta.value.substring(0,ta.selectionStart)+wrap+ta.value.substring(ta.selectionEnd);
+    currentDeck().cards[idx].a=ta.value; save();
+  }));
+}
+
+function shiftOpen(a,b){
+  const no=new Set();
+  openItems.forEach(v=>{
+    if(v===a) no.add(b);
+    else if(v===b) no.add(a);
+    else no.add(v);
+  });
+  openItems.clear(); no.forEach(v=>openItems.add(v));
+}
+
+/* ══════════════════════════════════════
+   카드 추가
+══════════════════════════════════════ */
+document.getElementById('btn-add-card').addEventListener('click', ()=>{
+  const deck=currentDeck(); if(!deck) return;
+  const newIdx=deck.cards.length;
+  deck.cards.push({ cat: deck.categories[0]||'', q:'', a:'', tip:'' });
+  openItems.add(newIdx);
+  save(); renderCards();
+  setTimeout(()=>{
+    const items=document.querySelectorAll('.cei');
+    if(items.length) items[items.length-1].scrollIntoView({behavior:'smooth',block:'center'});
+  },80);
+});
+
+/* ══════════════════════════════════════
+   HTML Export
+══════════════════════════════════════ */
+document.getElementById('btn-export').addEventListener('click', ()=>{ const d=currentDeck(); if(d) exportDeckHtml(d.id); });
+document.getElementById('btn-save-json-editor').addEventListener('click', ()=>{ const d=currentDeck(); if(d) exportDeckJson(d.id); });
+
+function exportDeckHtml(deckId){
+  const deck=getDeck(deckId); if(!deck) return;
+  const html=buildHtml(deck);
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=(deck.title||'암기장').replace(/[^a-zA-Z0-9가-힣_\-]/g,'_')+'.html';
+  a.click();
+  toast('HTML 파일 저장 완료!');
+}
+
+function exportDeckJson(deckId){
+  const deck=getDeck(deckId); if(!deck) return;
+  const blob=new Blob([JSON.stringify(deck,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=(deck.title||'암기장').replace(/[^a-zA-Z0-9가-힣_\-]/g,'_')+'_백업.json';
+  a.click();
+  toast('JSON 백업 저장 완료!');
+}
+
+function buildHtml(deck){
+  const cardDataJs=JSON.stringify(deck.cards,null,2);
+  const styleMap=JSON.stringify(Object.fromEntries(deck.categories.map((c,i)=>[c,getTagStyle(c,deck.categories)])));
+  const filterBtns=['all',...deck.categories,'starred'];
+  const filterHtml=filterBtns.map((f,i)=>{
+    const label=f==='all'?'전체':f==='starred'?'★ 표시만':f;
+    return `<button class="filter-btn${i===0?' active':''}" data-filter="${esc(f)}">${esc(label)}</button>`;
+  }).join('\n  ');
+
+  return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>${esc(deck.title)}</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  --bg:#F7F7F8;--surface:#FFFFFF;--border:#E8E8EC;--border2:#D4D4DA;
+  --tx1:#18181C;--tx2:#5A5A6A;--tx3:#9898A8;
+  --accent:#534AB7;--r-lg:16px;--r-xl:20px;
+}
+[data-theme=dark]{
+  --bg:#111113;--surface:#1C1C1F;--border:#2C2C30;--border2:#3A3A3F;
+  --tx1:#F0F0F2;--tx2:#9898A8;--tx3:#5A5A68;--accent:#7B74D4;
+}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--tx1);line-height:1.6;min-height:100vh;transition:background .2s}
+.page-wrap{max-width:760px;margin:0 auto;padding:1.75rem 1.25rem 4rem}
+@media(min-width:600px){.page-wrap{padding:2rem 2rem 4rem}}
+@media(min-width:900px){.page-wrap{padding:2.5rem 2.5rem 5rem}}
+.top-bar{display:flex;align-items:center;justify-content:flex-end;margin-bottom:1.25rem}
+.theme-btn{width:32px;height:32px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--tx2);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.header{padding-bottom:1.25rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.title-area h1{font-size:clamp(17px,4vw,20px);font-weight:700;letter-spacing:-.02em}
+.title-area p{font-size:13px;color:var(--tx3);margin-top:3px}
+.stats{display:flex;gap:6px;flex-shrink:0}
+.stat-pill{font-size:12px;font-weight:500;padding:5px 11px;border-radius:var(--r-xl);border:1px solid var(--border);background:var(--surface);color:var(--tx2);white-space:nowrap}
+.stat-pill span{font-weight:700;color:var(--tx1)}
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.filter-btn{font-family:var(--font);font-size:13px;font-weight:500;padding:6px 14px;border-radius:var(--r-xl);border:1px solid var(--border);background:var(--surface);color:var(--tx2);cursor:pointer;transition:background .15s,color .15s;-webkit-tap-highlight-color:transparent}
+.filter-btn:hover{background:var(--border);color:var(--tx1)}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.progress-bar-wrap{background:var(--border);border-radius:6px;height:5px;margin-bottom:1.5rem;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:6px;background:var(--accent);transition:width .35s ease}
+.cards-list{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.card-header{display:flex;align-items:center;gap:10px;padding:.9rem 1rem;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.card-num{font-size:11px;font-weight:700;color:var(--tx3);min-width:22px;flex-shrink:0}
+.card-tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.card-q{flex:1;font-size:clamp(13px,3.5vw,14px);font-weight:500;color:var(--tx1);line-height:1.55}
+.card-toggle{font-size:18px;color:var(--tx3);transition:transform .2s;flex-shrink:0}
+.card.open .card-toggle{transform:rotate(180deg)}
+.card-body{display:none;border-top:1px solid var(--border);padding:1rem;background:var(--bg)}
+.card.open .card-body{display:block}
+.answer-label{font-size:10px;font-weight:700;color:var(--tx3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:9px}
+.answer-text{font-size:clamp(13px,3.5vw,14px);color:var(--tx1);line-height:1.9;word-break:keep-all}
+.answer-text .key{background:#EEEDFE;color:#3C3489;padding:1px 5px;border-radius:4px;font-weight:600}
+.answer-text .cond{background:#E1F5EE;color:#085041;padding:1px 5px;border-radius:4px;font-weight:600}
+[data-theme=dark] .answer-text .key{background:#1E1B3A;color:#B8B4F0}
+[data-theme=dark] .answer-text .cond{background:#0D2218;color:#6DE0A8}
+.tip-row{margin-top:12px;font-size:12px;color:var(--tx3);border-left:2.5px solid var(--border2);padding-left:10px;line-height:1.6}
+.memo-row{display:flex;gap:8px;margin-top:14px}
+.memo-btn{font-family:var(--font);font-size:12px;font-weight:500;padding:5px 13px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--tx2);cursor:pointer;transition:background .15s;-webkit-tap-highlight-color:transparent}
+.memo-btn:hover{background:var(--border)}
+.memo-btn.marked{background:#FAEEDA;border-color:#EF9F27;color:#633806}
+.done-overlay{text-align:center;padding:3rem 0;display:none}
+.done-overlay.show{display:block}
+.done-msg{font-size:16px;font-weight:600;color:var(--tx1)}
+.done-sub{font-size:13px;color:var(--tx3);margin-top:5px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="top-bar">
+    <button class="theme-btn" id="theme-btn" title="다크/라이트"><i class="ti ti-moon" id="ti"></i></button>
+  </div>
+  <div class="header">
+    <div class="header-top">
+      <div class="title-area">
+        <h1>${esc(deck.title)}</h1>
+        <p>${esc(deck.sub||'')}</p>
+      </div>
+      <div class="stats">
+        <div class="stat-pill">전체 <span id="total-count">0</span>문항</div>
+        <div class="stat-pill">완료 <span id="done-count">0</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="filter-bar">
+  ${filterHtml}
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+  <div class="cards-list" id="cards-list"></div>
+  <div class="done-overlay" id="done-overlay">
+    <div style="font-size:36px;margin-bottom:10px"><i class="ti ti-checks" style="color:var(--accent)"></i></div>
+    <div class="done-msg">이 카테고리엔 문항이 없어요</div>
+    <div class="done-sub">다른 카테고리를 선택해 보세요</div>
+  </div>
+</div>
+<script>
+const CARDS=${cardDataJs};
+const STYLES=${styleMap};
+const DARK_STYLES=${JSON.stringify(Object.fromEntries(deck.categories.map((c,i)=>[c,getDarkTagStyle(c,deck.categories)])))};
+let starred=new Set(),openCards=new Set(),currentFilter='all';
+function gs(cat){ return (document.documentElement.dataset.theme==='dark'?DARK_STYLES:STYLES)[cat]||'background:#F1EFE8;color:#444;' }
+function render(){
+  const list=document.getElementById('cards-list'),ol=document.getElementById('done-overlay');
+  list.innerHTML='';
+  const vis=CARDS.filter((c,i)=>currentFilter==='starred'?starred.has(i):currentFilter==='all'?true:c.cat===currentFilter);
+  document.getElementById('total-count').textContent=CARDS.length;
+  document.getElementById('done-count').textContent=starred.size;
+  document.getElementById('progress-fill').style.width=(CARDS.length?Math.round(starred.size/CARDS.length*100):0)+'%';
+  if(!vis.length){ol.classList.add('show');return}ol.classList.remove('show');
+  vis.forEach(card=>{
+    const idx=CARDS.indexOf(card),d=document.createElement('div');
+    d.className='card'+(openCards.has(idx)?' open':'');
+    d.innerHTML=\`<div class="card-header" data-idx="\${idx}"><span class="card-num">\${String(idx+1).padStart(2,'0')}</span>\${card.cat?\`<span class="card-tag" style="\${gs(card.cat)}">\${card.cat}</span>\`:''}<span class="card-q">\${card.q}</span><i class="ti ti-chevron-down card-toggle"></i></div><div class="card-body"><div class="answer-label">모범 답안</div><div class="answer-text">\${card.a}</div>\${card.tip?\`<div class="tip-row">암기 포인트: \${card.tip}</div>\`:''}<div class="memo-row"><button class="memo-btn\${starred.has(idx)?' marked':''}" data-star="\${idx}">\${starred.has(idx)?'★ 완료':'☆ 완료 표시'}</button></div></div>\`;
+    list.appendChild(d);
+  });
+  list.querySelectorAll('.card-header').forEach(h=>h.addEventListener('click',()=>{const i=parseInt(h.dataset.idx);if(openCards.has(i))openCards.delete(i);else openCards.add(i);render()}));
+  list.querySelectorAll('[data-star]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const i=parseInt(b.dataset.star);if(starred.has(i))starred.delete(i);else starred.add(i);render()}));
+}
+document.querySelectorAll('.filter-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFilter=b.dataset.filter;render()}));
+(function(){let t='light';try{t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch(e){}apply(t)})();
+function apply(t){document.documentElement.dataset.theme=t;document.getElementById('ti').className=t==='dark'?'ti ti-sun':'ti ti-moon';try{localStorage.setItem('theme',t)}catch(e){}render();}
+document.getElementById('theme-btn').addEventListener('click',()=>apply(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+render();
+<\/script>
+</body>
+</html>`;
+}
+
+/* ══════════════════════════════════════
+   미리보기
+══════════════════════════════════════ */
+document.getElementById('btn-preview').addEventListener('click', ()=>{
+  const deck=currentDeck(); if(!deck) return;
+  const w=window.open('','_blank');
+  w.document.write(buildHtml(deck));
+  w.document.close();
+});
+
+/* ══════════════════════════════════════
+   JSON 불러오기
+══════════════════════════════════════ */
+document.getElementById('btn-import-home').addEventListener('click', ()=>{ document.getElementById('import-json-text').value=''; openModal('modal-import'); });
+document.getElementById('import-file').addEventListener('change', e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=ev=>{ document.getElementById('import-json-text').value=ev.target.result; };
+  r.readAsText(f);
+});
+document.getElementById('btn-confirm-import').addEventListener('click', ()=>{
+  try{
+    const raw=document.getElementById('import-json-text').value.trim();
+    const data=JSON.parse(raw);
+    // 단일 덱 JSON or 전체 덱 배열 모두 지원
+    const incoming=Array.isArray(data)?data:[data];
+    incoming.forEach(d=>{
+      if(!d.id) d.id=uid();
+      if(!d.cards) d.cards=[];
+      if(!d.categories) d.categories=[];
+      if(!d.color) d.color=COLORS[decks.length%COLORS.length];
+      // 중복 id 처리
+      if(decks.find(x=>x.id===d.id)) d.id=uid();
+      decks.push(d);
+    });
+    save(); closeModal('modal-import'); renderHome();
+    toast(`${incoming.length}개 암기장 불러오기 완료!`);
+  }catch(e){ alert('JSON 형식이 올바르지 않아요.\n'+e.message); }
+});
+
+/* ══════════════════════════════════════
+   모달 공통
+══════════════════════════════════════ */
+function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click', ()=>closeModal(btn.dataset.close)));
+document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click', e=>{ if(e.target===bg) closeModal(bg.id); }));
+
+/* ══════════════════════════════════════
+   초기화
+══════════════════════════════════════ */
+load();
+renderHome();
+</script>
+</body>
+</html>
